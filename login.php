@@ -72,7 +72,7 @@ if(!empty($_POST)){
 ?>
 <h1>Login</h1>
 <form action="login.php" method="post">
-    Usernamee: <br/>
+    Username: <br/>
     <input type="text" name="username" placeholder="Username"/><br/>
     Password:<br/>
     <input type="password" name="password" placeholder="Password"/><br/>
