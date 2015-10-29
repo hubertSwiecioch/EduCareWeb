@@ -1,7 +1,7 @@
 <?php 
 
     // These variables define the connection information for your MySQL database 
-   $username = "18632831_educare"; 
+   $username = "18632831_edu"; 
     $password = "gnVRyuXXYndEZOutsKh6"; 
     $host = "serwer1552055.home.pl"; 
     $dbname = "18632831_educare"; 
