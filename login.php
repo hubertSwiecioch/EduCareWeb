@@ -2,6 +2,7 @@
 
 require('conf/config.php');
 
+
 if(!empty($_POST)){
     
 	
@@ -17,9 +18,9 @@ if(!empty($_POST)){
 	
     
     $query = "
-            SELECT * FROM `users` 
+            SELECT * FROM `carer` 
             WHERE
-            user_username = :user
+            carer_username = :user
              ";
 			 
     $query_params = array(
@@ -47,7 +48,7 @@ if(!empty($_POST)){
 	
     if ($row){
         
-        if($encr_user_pass === $row['user_password']){
+        if($encr_user_pass === $row['carer_password']){
 			
             $is_login = true;
         }

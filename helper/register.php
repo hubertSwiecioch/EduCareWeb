@@ -16,9 +16,9 @@ if(!empty($_POST)){
 	
     
     $query = "SELECT COUNT(*) AS count 
-				   FROM users 
+				   FROM carer 
 				   WHERE 
-				   user_username = :user";
+				   carer_username = :user";
     
     
     $query_params = array(
@@ -61,7 +61,7 @@ if(!empty($_POST)){
    
 	
     $query = "INSERT INTO 
-					users (user_username, user_password, user_displayname) 
+					carer (carer_username, carer_password, carer_full_name) 
 					VALUES 
 					(:user, :pass, :displayname)";
     
