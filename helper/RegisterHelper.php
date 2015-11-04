@@ -1,11 +1,28 @@
 <?php
 
-require('EduCare/conf/config.php');
-
-if(!empty($_POST)){
-
- 
-    if(empty($_POST['username'])||empty($_POST['password'])||empty($_POST['displayname'])){
+/**
+ *
+ * @author hswie
+ */
+class RegisterHelper {
+   
+    private $username;
+    private $password;
+    private $displayname;
+    
+    public function RegisterHelper($username, $password, $displayname){
+        
+        $this->username = $username;
+        $this->password = $password;
+        $this->displayname = $displayname;
+        
+    }
+    
+    public function Register(){
+       
+        require('conf/config.php');
+        
+        if(empty($this->username)||empty($this->password)||empty($this->displayname)){
         
 		$response["success"] = 0; 
 			    		
@@ -22,7 +39,7 @@ if(!empty($_POST)){
     
     
     $query_params = array(
-        ':user' => $_POST['username']
+        ':user' => $this->username
     ); 
     
     try{
@@ -66,14 +83,14 @@ if(!empty($_POST)){
 					(:user, :pass, :displayname)";
     
     
-    $encr_user_pass = md5($_POST['password']);
+    $encr_user_pass = sha1($this->password);
     
     
     
     $query_params = array(
-        ':user' => $_POST['username'],
+        ':user' => $this->username,
 		':pass' =>  $encr_user_pass,
-		':displayname' => $_POST['displayname']
+		':displayname' => $this->displayname
     );
     
     
@@ -94,20 +111,5 @@ if(!empty($_POST)){
 	
     echo json_encode($response);
         
-}else{
-    ?>
-
-<h1>Register</h1>
-<form action="register.php" method="post">
-    Username: <br/>
-    <input type="text" name="username" placeholder="Username"/><br/>
-    Password: <br/>
-    <input name="password" type="password" placeholder="Password"/><br/>
-    Display Name: <br/>
-    <input type="text" name="displayname" placeholder="Display Name"/><br/>
-    <input type="submit" value="Register User"/>
-</form>
-<?php
+    }
 }
-
-?>
