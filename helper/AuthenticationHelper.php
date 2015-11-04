@@ -8,7 +8,7 @@ class AuthenticationHelper {
     
     private $username;
     private $password;
-    private $ipaddress ='';
+    private $onlineTime ='';
     
     public function AuthenticationHelper($usr, $pass){
         
@@ -16,9 +16,9 @@ class AuthenticationHelper {
         $this->password = $pass;
     }
     
-    public function setIP($ipaddress){
+    public function setOnlineTime($onlineTime){
         
-        $this->ipaddress = $ipaddress;
+        $this->onlineTime = $onlineTime;
     }
 
         public function Login(){
@@ -42,7 +42,7 @@ class AuthenticationHelper {
     
     $queryIP = "
                UPDATE carer
-               SET carer_IP= :ip
+               SET carer_online_test = :onlineTime
                WHERE  carer_username = :user
                ";
     	 
@@ -52,7 +52,7 @@ class AuthenticationHelper {
     
     $queryIP_params = array(
         ':user' => $this->username,
-        ':ip' => $this->ipaddress
+        ':onlineTime' => $this->onlineTime
     );
 	
     try {

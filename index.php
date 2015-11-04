@@ -10,9 +10,9 @@ require 'helper/RegisterHelper.php';
                     if($_POST['mod'] == 'LogIn'){
                         
                         $authentication = new AuthenticationHelper($_POST['username'], $_POST['password']);
-                        if(!empty($_POST['ipaddress'])){
+                        if(!empty($_POST['onlineTestTime'])){
                             
-                            $authentication->setIP($_POST['ipaddress']);
+                            $authentication->setOnlineTime($_POST['onlineTestTime']);
                         }
                         $authentication->Login();
                     }
