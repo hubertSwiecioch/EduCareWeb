@@ -8,7 +8,7 @@ class AuthenticationHelper {
     
     private $username;
     private $password;
-    private $onlineTime ='';
+    private $onlineTime = 0;
     
     public function AuthenticationHelper($usr, $pass){
         
@@ -40,7 +40,7 @@ class AuthenticationHelper {
             carer_username = :user
              ";
     
-    $queryIP = "
+    $queryOnlineTime = "
                UPDATE carer
                SET carer_online_test = :onlineTime
                WHERE  carer_username = :user
@@ -50,10 +50,6 @@ class AuthenticationHelper {
         ':user' => $this->username
     );
     
-    $queryIP_params = array(
-        ':user' => $this->username,
-        ':onlineTime' => $this->onlineTime
-    );
 	
     try {
 		
@@ -88,11 +84,22 @@ class AuthenticationHelper {
         $response["success"] = 1;
         $response["message"] = "Login Successful";
         
+        if ($this->onlineTime == 0){
+            
+            $date = new DateTime();
+            $this->onlineTime = $date->getTimestamp();
+        }
+        
+        $queryOnlineTime_params = array(
+        ':user' => $this->username,
+        ':onlineTime' => $this->onlineTime
+        );
+          
         try {
 		
-        $stmt = $db->prepare($queryIP);
+        $stmt = $db->prepare($queryOnlineTime);
 		
-        $result = $stmt->execute($queryIP_params);
+        $result = $stmt->execute($queryOnlineTime_params);
         } catch (PDOException $ex) {
 	
 		
