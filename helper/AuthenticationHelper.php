@@ -8,6 +8,7 @@ class AuthenticationHelper {
     
     private $username;
     private $password;
+    private $ipaddress ='';
     
     public function AuthenticationHelper($usr, $pass){
         
@@ -15,7 +16,12 @@ class AuthenticationHelper {
         $this->password = $pass;
     }
     
-    public function Login(){
+    public function setIP($ipaddress){
+        
+        $this->ipaddress = $ipaddress;
+    }
+
+        public function Login(){
         require('conf/config.php');
        
         if(empty($this->username)||empty($this->password)){
@@ -33,9 +39,20 @@ class AuthenticationHelper {
             WHERE
             carer_username = :user
              ";
-			 
+    
+    $queryIP = "
+               UPDATE carer
+               SET carer_IP= :ip
+               WHERE  carer_username = :user
+               ";
+    	 
     $query_params = array(
         ':user' => $this->username
+    );
+    
+    $queryIP_params = array(
+        ':user' => $this->username,
+        ':ip' => $this->ipaddress
     );
 	
     try {
@@ -70,6 +87,19 @@ class AuthenticationHelper {
 		
         $response["success"] = 1;
         $response["message"] = "Login Successful";
+        
+        try {
+		
+        $stmt = $db->prepare($queryIP);
+		
+        $result = $stmt->execute($queryIP_params);
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error2, Please try Again";
+        die(json_encode($response));
+        }
 	
         die(json_encode($response));
     }else{
@@ -79,6 +109,5 @@ class AuthenticationHelper {
 		
         die(json_encode($response));
     }
-}
-    
+}   
 }

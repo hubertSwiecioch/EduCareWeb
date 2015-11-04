@@ -10,6 +10,10 @@ require 'helper/RegisterHelper.php';
                     if($_POST['mod'] == 'LogIn'){
                         
                         $authentication = new AuthenticationHelper($_POST['username'], $_POST['password']);
+                        if(!empty($_POST['ipaddress'])){
+                            
+                            $authentication->setIP($_POST['ipaddress']);
+                        }
                         $authentication->Login();
                     }
                     
