@@ -2,11 +2,13 @@
 
 require 'helper/AuthenticationHelper.php';
 require 'helper/RegisterHelper.php';
+require 'helper/DatabaseHelper.php';
 
       class Index{
            public static function main(){
                
                 if(!empty($_POST)){
+                   
                     if($_POST['mod'] == 'LogIn'){
                         
                         $authentication = new AuthenticationHelper($_POST['username'], $_POST['password']);
@@ -21,6 +23,13 @@ require 'helper/RegisterHelper.php';
                         
                      $register = new RegisterHelper($_POST['username'], $_POST['password'], $_POST['displayname']);
                      $register->Register();
+                    }
+                    
+                    elseif ($_POST['mod'] == "getResidentsList") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getResidentsList();
+                    
                     }
                     
                     elseif ($_POST['mod'] == "RegisterBrowser") {
@@ -54,6 +63,11 @@ require 'helper/RegisterHelper.php';
                  <form action="index.php" method="post">
                     <input type='hidden' name='mod' value='RegisterBrowser'/>
                     <input type="submit" value="Register"/>   
+                </form>
+                
+                 <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='getResidentsList'/>
+                    <input type="submit" value="ResidentList"/>   
                 </form>
                 <?php
                 }

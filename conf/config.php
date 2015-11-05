@@ -11,7 +11,7 @@
 
     try 
     { 
-      
+  
         $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options); 
     } 
     catch(PDOException $ex) 

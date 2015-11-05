@@ -21,7 +21,7 @@ class AuthenticationHelper {
         $this->onlineTime = $onlineTime;
     }
 
-        public function Login(){
+    public function Login(){
         require('conf/config.php');
        
         if(empty($this->username)||empty($this->password)){
@@ -66,7 +66,7 @@ class AuthenticationHelper {
 	
 	$is_login = false;
     
-    $encr_user_pass = sha1($this->password);
+        $encr_user_pass = sha1($this->password);
     
 	$row = $stmt->fetch();
 	
