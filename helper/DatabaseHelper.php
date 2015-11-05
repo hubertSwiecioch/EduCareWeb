@@ -29,16 +29,15 @@ class DatabaseHelper {
             }
             
           die(json_encode($residentrray));
-     
+          
         } catch (PDOException $ex) {
 	
 		
         $response['success'] = 0 ;
         $response['message'] = "Database Error1, Please try Again";
         die(json_encode($response));
-    
-        
+       
         }
-
+        mysqli_close($connection);
     }
 }
