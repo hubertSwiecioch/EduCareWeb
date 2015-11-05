@@ -53,14 +53,15 @@ class DatabaseHelper {
            } 
            
           $sql = "SELECT * FROM carer";
-
-          $result = mysqli_query($connection, $sql) or die("Error in Selecting " . mysqli_error($connection));
+          $carerrray = array();
+         
+           if($result = $connection->query($sql)){
           
-           $carertrray = array();
-            while($row =  mysqli_fetch_assoc($result))
-            {
+            while($row = $result->fetch_array(MYSQL_ASSOC)){
             $carerrray[] = $row;
-            }
+            }          
+            echo(json_encode($carerrray));
+          }
             
           die(json_encode($carerrray));
           
@@ -72,6 +73,7 @@ class DatabaseHelper {
         die(json_encode($response));
        
         }
+        $result->close();
         mysqli_close($connection);
     }
 }

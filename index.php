@@ -39,6 +39,13 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
+                    elseif ($_POST['mod'] == "getResidentsList") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getResidentsList();
+                    
+                    }
+                    
                     elseif ($_POST['mod'] == "RegisterBrowser") {
                         ?>
                             <h1>Register</h1>
