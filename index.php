@@ -77,6 +77,11 @@ require 'helper/DatabaseHelper.php';
                     <input type='hidden' name='mod' value='getResidentsList'/>
                     <input type="submit" value="ResidentList"/>   
                 </form>
+                
+                 <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='getCarersList'/>
+                    <input type="submit" value="CarerList"/>   
+                </form>
                 <?php
                 }
            }
