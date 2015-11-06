@@ -8,30 +8,13 @@
 class ImageHelper {
    
   
+
 public function uploadPhoto(){
-if(!isset($_FILES['userfile']))
-    {
-    echo '<p>Please select a file</p>';
-    }
-else
-    {
-    try    {
-        upload();
-        /*** give praise and thanks to the php gods ***/
-        echo '<p>Thank you for submitting</p>';
-        }
-    catch(Exception $e)
-        {
-        echo '<h4>'.$e->getMessage().'</h4>';
-        }
-    }
-}
-private function upload(){
     
     require('conf/config.php');
     
-/*** check if a file was uploaded ***/
-if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['userfile']['tmp_name']) != false)
+    /*** check if a file was uploaded ***/
+    if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['userfile']['tmp_name']) != false)
     {
     /***  get the image info. ***/
     $size = getimagesize($_FILES['userfile']['tmp_name']);
@@ -54,10 +37,9 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['us
         
         $dbh = $db;
 
-                /*** set the error mode ***/
-                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        /*** set the error mode ***/
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            /*** our sql query ***/
         $stmt = $dbh->prepare("INSERT INTO images (image_type ,image, image_size, image_name) VALUES (? ,?, ?, ?)");
 
         /*** bind the params ***/
@@ -69,19 +51,36 @@ if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['us
         /*** execute the query ***/
         $stmt->execute();
         }
-    else
+        else
         {
-        /*** throw an exception is image is not of type ***/
         throw new Exception("File Size Error");
         }
     }
 else
     {
-    // if the file is not less than the maximum allowed, print an error
     throw new Exception("Unsupported Image Format!");
     }
 }
 
+function getPhoto($id){
+    require('conf/config.php');
+    
+    try{
+    $mysqli = new mysqli($host,$username,$password,$dbname);
+    $sql = "SELECT * FROM images WHERE image_id ='$id' ";
+    $results =$mysqli->query($sql);
+
+    $spots = array();  //array to parse jason from
+
+    while($spot = $results->fetch_assoc()){
+        $spots[] = $spot;                                                           
+    }
+
+    echo json_encode($spots);
+    }catch (PDOException $ex) {
+    }
+    
+    }       
+ }
 
 
-}

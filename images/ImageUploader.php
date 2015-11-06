@@ -34,56 +34,31 @@ else
 
 function upload(){
     
-/*** check if a file was uploaded ***/
-if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['userfile']['tmp_name']) != false)
-    {
-    /***  get the image info. ***/
-    $size = getimagesize($_FILES['userfile']['tmp_name']);
-    /*** assign our variables ***/
-    $type = $size['mime'];
-    $imgfp = fopen($_FILES['userfile']['tmp_name'], 'rb');
-    $size = $size[3];
-    $name = $_FILES['userfile']['name'];
-    $maxsize = 99999999;
+        $filePath = '/EduCare/images/avatar.png';
+        $mime = 'image/gif';
+        $id = 2;
+                
+        $blob = fopen($filePath,'rb');
 
-    $username = "18632831_edu"; 
-    $password = "gnVRyuXXYndEZOutsKh6"; 
-    $host = "serwer1552055.home.pl"; 
-    $dbname = "18632831_edu"; 
+         $sql = "UPDATE images
+         SET mime = :mime,
+         data = :data
+         WHERE ID = :id";
+         
+        $username = "18632831_edu"; 
+        $password = "gnVRyuXXYndEZOutsKh6"; 
+        $host = "serwer1552055.home.pl"; 
+        $dbname = "18632831_edu"; 
 
-    /***  check the file is less than the maximum file size ***/
-    if($_FILES['userfile']['size'] < $maxsize )
-        {
-        /*** connect to db ***/
-        
-        $dbh = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options); 
+        $connection = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options); 
+    
+         $stmt = $connection->prepare($sql);
 
-                /*** set the error mode ***/
-                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $stmt->bindParam(':mime',$mime);
+         $stmt->bindParam(':data',$blob,PDO::PARAM_LOB);
+         $stmt->bindParam(':id',$id);
 
-            /*** our sql query ***/
-        $stmt = $dbh->prepare("INSERT INTO images (image_type ,image, image_size, image_name) VALUES (? ,?, ?, ?)");
-
-        /*** bind the params ***/
-        $stmt->bindParam(1, $type);
-        $stmt->bindParam(2, $imgfp, PDO::PARAM_LOB);
-        $stmt->bindParam(3, $size);
-        $stmt->bindParam(4, $name);
-
-        /*** execute the query ***/
-        $stmt->execute();
-        }
-    else
-        {
-        /*** throw an exception is image is not of type ***/
-        throw new Exception("File Size Error");
-        }
-    }
-else
-    {
-    // if the file is not less than the maximum allowed, print an error
-    throw new Exception("Unsupported Image Format!");
-    }
+         return $stmt->execute();
 }
 
 function getPhoto(){
@@ -92,39 +67,22 @@ function getPhoto(){
     $password = "gnVRyuXXYndEZOutsKh6"; 
     $host = "serwer1552055.home.pl"; 
     $dbname = "18632831_edu"; 
-    $id = 28;
+    $id = 1;
    
-    try    {
-          
-          $dbh = new PDO("mysql:host=localhost;dbname=testblob", 'username', 'password');
-          $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT image_type, image_size, image_name FROM testblob WHERE image_id=".$image_id;
+     $connection = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options); 
 
-          
-          $stmt = $dbh->prepare($sql);
-                 $stmt->execute(); 
 
-          $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $sql = "SELECT mime,
+            data
+            FROM images
+            WHERE ID = :id";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute(array(":id" => $id));
+            $stmt->bindColumn(1, $mime);
+            $stmt->bindColumn(2, $data, PDO::PARAM_LOB);
 
-          $array = $stmt->fetch();
-          if(sizeof($array) === 3)
-              {
-              echo '<p>This is '.$array['image_name'].' from the database</p>';
-              echo '<img '.$array['image_size'].' src="showfile.php?image_id='.$image_id.'">';
-              }
-          else
-              {
-              throw new Exception("Out of bounds error");
-              }
-          }
-       catch(PDOException $e)
-          {
-          echo $e->getMessage();
-          }
-       catch(Exception $e)
-          {
-          echo $e->getMessage();
-          }
-      }
-  
-?>
+            $stmt->fetch(PDO::FETCH_BOUND);
+            $photo = array("mime" => $mime,"image" => base64_encode($data));
+             
+            echo(json_encode($photo));
+    }
