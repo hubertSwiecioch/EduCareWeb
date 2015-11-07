@@ -7,6 +7,22 @@ require 'helper/DatabaseHelper.php';
       class Index{
            public static function main(){
                
+                if(!empty($_FILES)){
+                    
+                    $target_path  = "./images/residentsImages/";
+                    $target_path = $target_path . basename( $_FILES['uploadedfile']['name']);
+                    if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) 
+                    {
+                        echo "The file ".  basename( $_FILES['uploadedfile']['name']).
+                     " has been uploaded";
+                    } 
+                    else
+                    {
+                        echo "There was an error uploading the file, please try again!";
+                    }
+                
+                }
+               
                 if(!empty($_POST)){
                    
                     if($_POST['mod'] == 'LogIn'){
@@ -38,6 +54,7 @@ require 'helper/DatabaseHelper.php';
                         $databaseHelper->getCarersList();
                     
                     }
+                    
                     
                     
                     elseif ($_POST['mod'] == "RegisterBrowser") {
