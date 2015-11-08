@@ -116,4 +116,45 @@ class DatabaseHelper {
         $result->close();
         mysqli_close($connection);
     }
+    
+    public function registerCarer($carer_username, $carer_password, $displayname,$image,$phonenumber){
+       
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+           
+           $encr_user_pass = sha1($carer_password);
+               
+          
+          $sql = "INSERT INTO carer (carer_username, carer_password, carer_full_name, image, phone_number)
+            VALUES ('$carer_username', '$encr_user_pass', '$displayname','$image', '$phonenumber')";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
 }

@@ -9,7 +9,36 @@ require 'helper/DatabaseHelper.php';
                
                 if(!empty($_FILES)){
                     
-                    $target_path  = "./images/residentsImages/";
+                   
+                    function parseRequestHeaders() {
+                    $headers = array();
+                    foreach($_SERVER as $key => $value) {
+                        if (substr($key, 0, 5) <> 'HTTP_') {
+                            continue;
+                        }
+                        $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
+                        $headers[$header] = $value;
+                    }
+                    return $headers;
+                    }
+                    
+                    $headers = parseRequestHeaders();
+
+                    foreach ($headers as $header => $value) {
+                        echo "$header: $value <br />\n";
+                        if ($value == 'resident'){                           
+                            $target_path  = "./images/residentsImages/";
+                        }
+                        
+                        if ($value == 'carer'){                        
+                            $target_path  = "./images/carersImages/";
+                        }  
+                    }
+                    
+                     
+
+                                       
+                     
                     $target_path = $target_path . basename( $_FILES['uploadedfile']['name']);
                     if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) 
                     {
@@ -35,10 +64,12 @@ require 'helper/DatabaseHelper.php';
                         $authentication->Login();
                     }
                     
-                    elseif ($_POST['mod'] == "Register") {
+                    elseif ($_POST['mod'] == "registerCarer") {
                         
-                     $register = new RegisterHelper($_POST['username'], $_POST['password'], $_POST['displayname']);
-                     $register->Register();
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->registerCarer($_POST['carer_username'],$_POST['carer_password'], $_POST['carer_full_name'],
+                               $_POST['image'], $_POST['phone_number']);
+                        
                     }
                     
                     elseif ($_POST['mod'] == "getResidentsList") {                  
