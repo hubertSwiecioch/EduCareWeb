@@ -55,6 +55,15 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
+                     elseif ($_POST['mod'] == "addResident") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->addResident($_POST['firstname'],$_POST['lastname'],$_POST['dateofadoption'],
+                                $_POST['birthdate'],$_POST['address'],
+                                $_POST['city'],$_POST['image']);
+                    
+                    }
+                    
                     
                     
                     elseif ($_POST['mod'] == "RegisterBrowser") {
@@ -98,6 +107,11 @@ require 'helper/DatabaseHelper.php';
                  <form action="index.php" method="post">
                     <input type='hidden' name='mod' value='getCarersList'/>
                     <input type="submit" value="CarerList"/>   
+                </form>
+                
+                <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='addResident'/>
+                    <input type="submit" value="Add resident"/>   
                 </form>
                 <?php
                 }
