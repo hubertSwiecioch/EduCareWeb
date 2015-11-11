@@ -9,7 +9,9 @@ class AuthenticationHelper {
     private $username;
     private $password;
     private $onlineTime = 0;
-    
+    private $carerID = -1;
+
+
     public function AuthenticationHelper($usr, $pass){
         
         $this->username = $usr;
@@ -75,6 +77,7 @@ class AuthenticationHelper {
         if($encr_user_pass === $row['carer_password']){
 			
             $is_login = true;
+            $this->carerID = $row['ID'];
         }
     }
     
@@ -83,6 +86,7 @@ class AuthenticationHelper {
 		
         $response["success"] = 1;
         $response["message"] = "Login Successful";
+        $response["ID"] = $this->carerID;
         
         if ($this->onlineTime == 0){
             
