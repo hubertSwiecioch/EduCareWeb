@@ -86,6 +86,20 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
+                    elseif ($_POST['mod'] == "getCarerTasks") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getCarerTasks($_POST['carerID']);
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "setTaskIsDone") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->setTaskIsDone($_POST['ID'],$_POST['isDone'] );
+                    
+                    }
+                    
                      elseif ($_POST['mod'] == "addResident") {
                       
                         $databaseHelper = new DatabaseHelper();
@@ -143,6 +157,10 @@ require 'helper/DatabaseHelper.php';
                 <form action="index.php" method="post">
                     <input type='hidden' name='mod' value='addResident'/>
                     <input type="submit" value="Add resident"/>   
+                </form>
+                 <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='getCarerTasks'/>
+                    <input type="submit" value="Get carer tasks"/>   
                 </form>
                 <?php
                 }

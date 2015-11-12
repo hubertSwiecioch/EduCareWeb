@@ -60,10 +60,46 @@ class DatabaseHelper {
             while($row = $result->fetch_array(MYSQL_ASSOC)){
             $carerrray[] = $row;
             }          
-            echo(json_encode($carerrray));
           }
             
           die(json_encode($carerrray));
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function getCarerTasks($carerID){
+        
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+           
+          $sql = "SELECT * FROM task 
+                  WHERE carer_ID = '$carerID' AND is_done = '0'";
+          $taskarrary = array();
+         
+           if($result = $connection->query($sql)){
+          
+            while($row = $result->fetch_array(MYSQL_ASSOC)){
+            $taskarrary[] = $row;
+            }          
+          }
+            
+          die(json_encode($taskarrary));
           
         } catch (PDOException $ex) {
 	
@@ -97,6 +133,46 @@ class DatabaseHelper {
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
                $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function setTaskIsDone($taskID, $isDone){
+        
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+               
+          
+          $sql = "UPDATE task
+                 SET is_done= '$isDone'
+                 WHERE ID= '$taskID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "UPDATE_SUCCESS";
                 die(json_encode($response));
             } else {
                 $response['success'] = 0 ;
