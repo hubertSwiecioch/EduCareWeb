@@ -100,6 +100,14 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
+                    elseif ($_POST['mod'] == "addTask") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->addTask($_POST['carerID'], $_POST['residentID'], $_POST['header'],
+                                                 $_POST['date'], $_POST['description'],$_POST['isDone']);
+                    
+                    }
+                    
                      elseif ($_POST['mod'] == "addResident") {
                       
                         $databaseHelper = new DatabaseHelper();

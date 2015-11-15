@@ -153,6 +153,45 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    public function addTask($carerID, $residentID, $header, $date, $description, $isDone){
+        
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+               
+          
+          $sql = "INSERT INTO task (description, date, resident_ID, carer_ID, header, is_done)
+            VALUES ('$description', '$date', '$residentID','$carerID', '$header', '$isDone'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
     public function setTaskIsDone($taskID, $isDone){
         
         require('conf/config.php');
