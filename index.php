@@ -104,7 +104,7 @@ require 'helper/DatabaseHelper.php';
                       
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->addTask($_POST['carerID'], $_POST['residentID'], $_POST['header'],
-                                                 $_POST['date'], $_POST['description'],$_POST['isDone']);
+                                                 $_POST['date'], $_POST['description']);
                     
                     }
                     

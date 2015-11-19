@@ -189,7 +189,7 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
-    public function addTask($carerID, $residentID, $header, $date, $description, $isDone){
+    public function addTask($carerID, $residentID, $header, $date, $description){
         
         require('conf/config.php');
        
@@ -202,8 +202,8 @@ class DatabaseHelper {
            } 
                
           
-          $sql = "INSERT INTO task (description, date, resident_ID, carer_ID, header, is_done)
-            VALUES ('$description', '$date', '$residentID','$carerID', '$header', '$isDone'";
+          $sql = "INSERT INTO task (description, date, resident_ID, carer_ID, header)
+                  VALUES ('$description', '$date', '$residentID','$carerID', '$header')";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
@@ -211,7 +211,7 @@ class DatabaseHelper {
                 die(json_encode($response));
             } else {
                 $response['success'] = 0 ;
-               $response['message'] = "Database Error1, Please try Again";
+               $response['message'] = "Querry execute filed, Please try Again";
                 die(json_encode($response));
             }
          
