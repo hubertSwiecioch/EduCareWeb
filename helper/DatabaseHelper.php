@@ -189,44 +189,6 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
-    public function addTask($carerID, $residentID, $header, $date, $description){
-        
-        require('conf/config.php');
-       
-        try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
-               
-          
-          $sql = "INSERT INTO task (description, date, resident_ID, carer_ID, header)
-                  VALUES ('$description', '$date', '$residentID','$carerID', '$header')";
-
-            if ($connection->query($sql) === TRUE) {
-               $response['success'] = 1 ;
-               $response['message'] = "INSERT_SUCCESS";
-                die(json_encode($response));
-            } else {
-                $response['success'] = 0 ;
-               $response['message'] = "Querry execute filed, Please try Again";
-                die(json_encode($response));
-            }
-         
-          
-        } catch (PDOException $ex) {
-	
-		
-        $response['success'] = 0 ;
-        $response['message'] = "Database Error1, Please try Again";
-        die(json_encode($response));
-       
-        }
-        $result->close();
-        mysqli_close($connection);
-    }
     
     public function setTaskIsDone($taskID, $isDone){
         
@@ -285,6 +247,47 @@ class DatabaseHelper {
           
           $sql = "INSERT INTO carer (carer_username, carer_password, carer_full_name, image, phone_number)
             VALUES ('$carer_username', '$encr_user_pass', '$displayname','$image', '$phonenumber')";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function registerFamily($family_username, $family_password, $family_fullname, $resident_ID,$phonenumber){
+       
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+           
+           $encr_user_pass = sha1($family_password);
+               
+          
+          $sql = "INSERT INTO carer (family_username, family_password, family_full_name, resident_ID, phone_number)
+            VALUES ('$family_username', '$encr_user_pass', $family_fullname', '$resident_ID', '$phonenumber')";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;

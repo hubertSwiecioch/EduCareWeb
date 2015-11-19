@@ -72,6 +72,14 @@ require 'helper/DatabaseHelper.php';
                         
                     }
                     
+                    elseif ($_POST['mod'] == "registerFamily") {
+                        
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->registerFamily($_POST['familyUsername'], $_POST['familyPassword'], $_POST['familyFullName'],
+                               $_POST['residentID'], $_POST['phonenumber']);
+                        
+                    }
+                    
                     elseif ($_POST['mod'] == "getResidentsList") {                  
                         
                         $databaseHelper = new DatabaseHelper();
