@@ -149,6 +149,43 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+       public function getCarerMessages($carerID){
+        
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+           
+          $sql = "SELECT * FROM carer_message 
+                  WHERE target_ID = '$carerID'";
+          $messagearrary = array();
+         
+           if($result = $connection->query($sql)){
+          
+            while($row = $result->fetch_array(MYSQL_ASSOC)){
+            $messagearrary[] = $row;
+            }          
+          }
+            
+          die(json_encode($messagearrary));
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
     public function addResident($first_name, $last_name, $date_of_adoption, 
                                 $birth_date,$address, $city, $image){
         

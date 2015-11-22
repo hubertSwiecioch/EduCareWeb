@@ -106,13 +106,19 @@ require 'helper/DatabaseHelper.php';
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->setTaskIsDone($_POST['ID'],$_POST['isDone'] );
                     
-                    }
-                    
+                    }                                  
                     elseif ($_POST['mod'] == "addTask") {
                       
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->addTask($_POST['carerID'], $_POST['residentID'], $_POST['header'],
                                                  $_POST['date'], $_POST['description']);
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "getCarerMessages") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getCarerMessages($_POST['carerID']);
                     
                     }
                     
