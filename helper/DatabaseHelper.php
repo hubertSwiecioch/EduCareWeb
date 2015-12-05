@@ -186,6 +186,85 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    public function addCarerMessage($content, $sendDate, $isRead, $senderID, $title, $targetID){
+        
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+               
+          
+          $sql = "INSERT INTO carer_message (content, send_date, is_read, sender_ID, title, target_ID)
+            VALUES ('$content', '$sendDate', '$isRead','$senderID', '$title', '$targetID')";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function setIsReadMessage($messageID, $isRead){
+        
+        require('conf/config.php');
+       
+        try {
+            // Create connection
+           $connection = new mysqli($host, $username, $password, $dbname);
+           // Check connection
+           if ($connection->connect_error) {
+               die("Connection failed: " . $connection->connect_error);
+           } 
+               
+          
+          $sql = "UPDATE carer_message
+                 SET is_read = '$isRead'
+                 WHERE ID= '$messageID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "UPDATE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
     public function addResident($first_name, $last_name, $date_of_adoption, 
                                 $birth_date,$address, $city, $image){
         

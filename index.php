@@ -122,7 +122,22 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
-                     elseif ($_POST['mod'] == "addResident") {
+                    elseif ($_POST['mod'] == "addCarerMessage") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->addCarerMessage($_POST['content'], $_POST['sendDate'], $_POST['isRead'],
+                                                 $_POST['senderID'], $_POST['title'], $_POST['targetID']);
+                    
+                    }
+                    
+                     elseif ($_POST['mod'] == "setIsReadMessage") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->setIsReadMessage($_POST['messageID'],$_POST['isRead'] );
+                    
+                    } 
+                    
+                    elseif ($_POST['mod'] == "addResident") {
                       
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->addResident($_POST['firstname'],$_POST['lastname'],$_POST['dateofadoption'],
