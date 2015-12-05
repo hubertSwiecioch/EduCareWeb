@@ -185,6 +185,30 @@ require 'helper/DatabaseHelper.php';
                         
                     }
                     
+                    elseif ($_POST['mod'] == "addMedicine") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->addMedicine($_POST['name'],$_POST['dose'],$_POST['residentID'],
+                                $_POST['startDate'],$_POST['endDate'],
+                                $_POST['carerID']);
+                    }
+                    
+                    elseif ($_POST['mod'] == "updateMedicine") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->updateMedicine($_POST['ID'], $_POST['name'],$_POST['dose'],$_POST['residentID'],
+                                $_POST['startDate'],$_POST['endDate'],
+                                $_POST['carerID']);
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "removeMedicine") {
+                        
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->removeMedicine($_POST['ID']);
+                        
+                    }
+                    
                     
                     
                     elseif ($_POST['mod'] == "RegisterBrowser") {

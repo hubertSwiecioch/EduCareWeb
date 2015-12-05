@@ -427,8 +427,10 @@ class DatabaseHelper {
             
           $connection = $this->createConnection();
           
+           $encr_user_pass = sha1($carer_password);
+          
           $sql = "UPDATE carer
-                 SET carer_username = '$carer_username', carer_password = '$carer_password', carer_full_name = '$displayname',
+                 SET carer_username = '$carer_username', carer_password = '$encr_user_pass', carer_full_name = '$displayname',
                                         image = '$image', phone_number = '$phonenumber'
                  WHERE ID= '$carerID'";
 
@@ -532,8 +534,10 @@ class DatabaseHelper {
             
           $connection = $this->createConnection();
           
+          $encr_user_pass = sha1($family_password);
+          
           $sql = "UPDATE family
-                 SET family_username = '$family_username', family_full_name = '$family_fullname', resident_ID = '$resident_ID',
+                 SET family_username = '$family_username', family_full_name = '$family_fullname', family_password = '$encr_user_pass', resident_ID = '$resident_ID',
                                         phone_number = '$phonenumber'
                  WHERE ID= '$familyID'";
 
@@ -590,7 +594,107 @@ class DatabaseHelper {
         }
         $result->close();
         mysqli_close($connection);
+           
+    }
+    
+    public function addMedicine($name, $dose, $residentID, $startDate, $endDate,$carerID){
         
+       
+        try {
+            
+           $connection = $this->createConnection();
+               
+          
+          $sql = "INSERT INTO prescribed_medicines (name, dose, resident_ID, start_date, end_date, carer_ID)
+            VALUES ('$name', '$dose','$residentID', '$startDate', '$endDate', '$carerID')";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function updateMedicine($medicineID, $name, $dose, $residentID, $startDate, $endDate,$carerID){
         
+        try {
+            
+          $connection = $this->createConnection();
+          
+          $sql = "UPDATE prescribed_medicines
+                 SET name= '$name',dose= '$dose',resident_ID = '$residentID',start_date= '$startDate',end_date= '$endDate',
+                     carer_ID= '$carerID',
+                 WHERE ID= '$medicineID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "UPDATE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function removeMedicine($medicineID){
+        
+         try {
+            
+          $connection = $this->createConnection();
+          
+          $sql = "DELETE from prescribed_medicines
+                  WHERE ID = '$medicineID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "REMOVE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+           
     }
 }
