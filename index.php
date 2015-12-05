@@ -72,11 +72,34 @@ require 'helper/DatabaseHelper.php';
                         
                     }
                     
+                    elseif ($_POST['mod'] == "updateCarer") {
+                        
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->updateCarer($_POST['ID'],$_POST['carer_username'],$_POST['carer_password'], $_POST['carer_full_name'],
+                               $_POST['image'], $_POST['phone_number']);
+                        
+                    }
+                    
                     elseif ($_POST['mod'] == "registerFamily") {
                         
                        $databaseHelper = new DatabaseHelper();
                        $databaseHelper->registerFamily($_POST['familyUsername'], $_POST['familyPassword'], $_POST['familyFullName'],
                                $_POST['residentID'], $_POST['phonenumber']);
+                        
+                    }
+                    
+                    elseif ($_POST['mod'] == "updateFamily") {
+                        
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->updateFamily($_POST['ID'],$_POST['familyUsername'], $_POST['familyPassword'], $_POST['familyFullName'],
+                               $_POST['residentID'], $_POST['phonenumber']);
+                        
+                    }
+                    
+                    elseif ($_POST['mod'] == "removeFamily") {
+                        
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->removeFamily($_POST['ID']);
                         
                     }
                     
@@ -144,6 +167,22 @@ require 'helper/DatabaseHelper.php';
                                 $_POST['birthdate'],$_POST['address'],
                                 $_POST['city'],$_POST['image']);
                     
+                    }
+                    
+                    elseif ($_POST['mod'] == "updateResident") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->updateResident($_POST['ID'], $_POST['firstname'],$_POST['lastname'],$_POST['dateofadoption'],
+                                $_POST['birthdate'],$_POST['address'],
+                                $_POST['city'],$_POST['image']);
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "removeResident") {
+                        
+                       $databaseHelper = new DatabaseHelper();
+                       $databaseHelper->removeResident($_POST['ID']);
+                        
                     }
                     
                     

@@ -85,6 +85,8 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    
+    
     public function getFamilyList(){
          
         try {
@@ -281,6 +283,75 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    public function updateResident($residentID, $first_name, $last_name, $date_of_adoption, 
+                                $birth_date,$address, $city, $image){
+        
+        try {
+            
+          $connection = $this->createConnection();
+          
+          $sql = "UPDATE resident
+                 SET first_name = '$first_name', last_name = '$last_name', date_of_adoption = '$date_of_adoption',
+                                        birth_date = '$birth_date', address = '$address', city = '$city', image = '$image', 
+                 WHERE ID= '$residentID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "UPDATE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function removeResident($residentID){
+        
+         try {
+            
+          $connection = $this->createConnection();
+          
+          $sql = "DELETE from resident
+                  WHERE ID = '$residentID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "REMOVE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+        
+        
+    }
+    
     
     public function setTaskIsDone($taskID, $isDone){
         
@@ -349,6 +420,76 @@ class DatabaseHelper {
         $result->close();
         mysqli_close($connection);
     }
+    
+    public function updateCarer($carerID, $carer_username, $carer_password, $displayname,$image,$phonenumber){
+        
+        try {
+            
+          $connection = $this->createConnection();
+          
+          $sql = "UPDATE carer
+                 SET carer_username = '$carer_username', carer_password = '$carer_password', carer_full_name = '$displayname',
+                                        image = '$image', phone_number = '$phonenumber'
+                 WHERE ID= '$carerID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "UPDATE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
+    public function removeCarer($carerID){
+        
+         try {
+            
+          $connection = $this->createConnection();
+          
+          $sql = "DELETE from carer
+                  WHERE ID = '$carerID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "REMOVE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+        
+        
+    }
+    
+    
     
     public function registerFamily($family_username, $family_password, $family_fullname, $resident_ID, $phonenumber){
        
