@@ -125,12 +125,12 @@ require 'helper/DatabaseHelper.php';
                     elseif ($_POST['mod'] == "addCarerMessage") {
                       
                         $databaseHelper = new DatabaseHelper();
-                        $databaseHelper->addCarerMessage($_POST['content'], $_POST['sendDate'], $_POST['isRead'],
+                        $databaseHelper->addCarerMessage($_POST['contents'], $_POST['sendDate'],
                                                  $_POST['senderID'], $_POST['title'], $_POST['targetID']);
                     
                     }
                     
-                     elseif ($_POST['mod'] == "setIsReadMessage") {
+                     elseif ($_POST['mod'] == "setMessageIsRead") {
                       
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->setIsReadMessage($_POST['messageID'],$_POST['isRead'] );

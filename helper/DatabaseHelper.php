@@ -186,7 +186,7 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
-    public function addCarerMessage($content, $sendDate, $isRead, $senderID, $title, $targetID){
+    public function addCarerMessage($content, $sendDate, $senderID, $title, $targetID){
         
         require('conf/config.php');
        
@@ -199,8 +199,8 @@ class DatabaseHelper {
            } 
                
           
-          $sql = "INSERT INTO carer_message (content, send_date, is_read, sender_ID, title, target_ID)
-            VALUES ('$content', '$sendDate', '$isRead','$senderID', '$title', '$targetID')";
+          $sql = "INSERT INTO carer_message (content, send_date, sender_ID, title, target_ID)
+            VALUES ('$content', '$sendDate','$senderID', '$title', '$targetID')";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
