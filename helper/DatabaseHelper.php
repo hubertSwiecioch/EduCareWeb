@@ -6,17 +6,29 @@
  */
 class DatabaseHelper {
     
-   public function getResidentsList(){
+    private function createConnection(){
         
         require('conf/config.php');
-       
-        try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
+        
+         // Create connection
+                $connection = new mysqli($host, $username, $password, $dbname);
+                $connection -> query ('SET NAMES utf8');
+                $connection -> query ('SET CHARACTER_SET utf8_unicode_ci');
+        
+        // Check connection
            if ($connection->connect_error) {
                die("Connection failed: " . $connection->connect_error);
            } 
+           
+           
+           return $connection;
+    }
+
+
+    public function getResidentsList(){
+        
+        try {
+           $connection = $this->createConnection();
            
           $sql = "SELECT * FROM resident";
           $residentrray = array();
@@ -42,18 +54,15 @@ class DatabaseHelper {
     
     public function getCarersList(){
         
-        require('conf/config.php');
-       
+    
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+          
+          $connection = $this->createConnection();
            
           $sql = "SELECT * FROM carer";
           $carerrray = array();
+          
+          
          
            if($result = $connection->query($sql)){
           
@@ -77,16 +86,10 @@ class DatabaseHelper {
     }
     
     public function getFamilyList(){
-        
-        require('conf/config.php');
-       
+         
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+            
+           $connection = $this->createConnection();
            
           $sql = "SELECT * FROM family";
           $carerrray = array();
@@ -114,15 +117,11 @@ class DatabaseHelper {
     
     public function getCarerTasks($carerID){
         
-        require('conf/config.php');
+       
        
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+          
+            $connection = $this->createConnection();
            
           $sql = "SELECT * FROM task 
                   WHERE carer_ID = '$carerID' AND is_done = '0'";
@@ -150,16 +149,10 @@ class DatabaseHelper {
     }
     
        public function getCarerMessages($carerID){
-        
-        require('conf/config.php');
-       
+   
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+            
+          $connection = $this->createConnection();
            
           $sql = "SELECT * FROM carer_message 
                   WHERE target_ID = '$carerID'";
@@ -188,15 +181,10 @@ class DatabaseHelper {
     
     public function addCarerMessage($content, $sendDate, $senderID, $title, $targetID){
         
-        require('conf/config.php');
        
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+            
+           $connection = $this->createConnection();
                
           
           $sql = "INSERT INTO carer_message (content, send_date, sender_ID, title, target_ID)
@@ -227,16 +215,10 @@ class DatabaseHelper {
     
     public function setIsReadMessage($messageID, $isRead){
         
-        require('conf/config.php');
-       
+        
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
-               
+          
+          $connection = $this->createConnection();
           
           $sql = "UPDATE carer_message
                  SET is_read = '$isRead'
@@ -268,17 +250,11 @@ class DatabaseHelper {
     public function addResident($first_name, $last_name, $date_of_adoption, 
                                 $birth_date,$address, $city, $image){
         
-        require('conf/config.php');
-       
+     
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
-               
-          
+         
+          $connection = $this->createConnection();
+            
           $sql = "INSERT INTO resident (first_name, last_name, date_of_adoption, birth_date, address, city, image)
             VALUES ('$first_name', '$last_name', '$date_of_adoption','$birth_date', '$address', '$city', '$image')";
 
@@ -308,16 +284,9 @@ class DatabaseHelper {
     
     public function setTaskIsDone($taskID, $isDone){
         
-        require('conf/config.php');
-       
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
-               
+            
+          $connection = $this->createConnection();
           
           $sql = "UPDATE task
                  SET is_done= '$isDone'
@@ -348,15 +317,9 @@ class DatabaseHelper {
     
     public function registerCarer($carer_username, $carer_password, $displayname,$image,$phonenumber){
        
-        require('conf/config.php');
-       
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+           
+           $connection = $this->createConnection();
            
            $encr_user_pass = sha1($carer_password);
                
@@ -389,15 +352,9 @@ class DatabaseHelper {
     
     public function registerFamily($family_username, $family_password, $family_fullname, $resident_ID,$phonenumber){
        
-        require('conf/config.php');
-       
+        
         try {
-            // Create connection
-           $connection = new mysqli($host, $username, $password, $dbname);
-           // Check connection
-           if ($connection->connect_error) {
-               die("Connection failed: " . $connection->connect_error);
-           } 
+           $connection = $this->createConnection();
            
            $encr_user_pass = sha1($family_password);
                

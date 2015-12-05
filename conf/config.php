@@ -12,7 +12,8 @@
     try 
     { 
   
-        $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options); 
+        $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options);
+        
     } 
     catch(PDOException $ex) 
     { 
@@ -25,6 +26,8 @@
      
      
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
+    
+
      
    
     if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) 
