@@ -103,6 +103,13 @@ require 'helper/DatabaseHelper.php';
                         
                     }
                     
+                     elseif ($_POST['mod'] == "getFamiliesList") {                  
+                        
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getFamilyList();
+                    
+                    }
+                    
                     elseif ($_POST['mod'] == "getResidentsList") {                  
                         
                         $databaseHelper = new DatabaseHelper();
@@ -247,6 +254,11 @@ require 'helper/DatabaseHelper.php';
                  <form action="index.php" method="post">
                     <input type='hidden' name='mod' value='getResidentsList'/>
                     <input type="submit" value="ResidentList"/>   
+                </form>
+                
+                 <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='getFamiliesList'/>
+                    <input type="submit" value="FamilyList"/>   
                 </form>
                 
                  <form action="index.php" method="post">

@@ -94,16 +94,16 @@ class DatabaseHelper {
            $connection = $this->createConnection();
            
           $sql = "SELECT * FROM family";
-          $carerrray = array();
+          $familyarray = array();
          
            if($result = $connection->query($sql)){
           
             while($row = $result->fetch_array(MYSQL_ASSOC)){
-            $carerrray[] = $row;
+            $familyarray[] = $row;
             }          
           }
             
-          die(json_encode($carerrray));
+          die(json_encode($familyarray));
           
         } catch (PDOException $ex) {
 	
