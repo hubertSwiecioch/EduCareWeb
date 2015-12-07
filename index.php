@@ -110,6 +110,13 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
+                    elseif ($_POST['mod'] == "getCurrentResidentFamily") {                  
+                        
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getFamilyList($_POST['residentID']);
+                    
+                    }
+                    
                     elseif ($_POST['mod'] == "getResidentsList") {                  
                         
                         $databaseHelper = new DatabaseHelper();
