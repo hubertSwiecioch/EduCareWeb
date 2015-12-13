@@ -628,6 +628,61 @@ class DatabaseHelper {
            
     }
     
+    public function getMedicines(){
+        
+        try {
+           $connection = $this->createConnection();
+           
+          $sql = "SELECT * FROM prescribed_medicines";
+          $medicinesarray = array();
+          if($result = $connection->query($sql)){
+          
+            while($row = $result->fetch_array(MYSQL_ASSOC)){
+            $medicinesarray[] = $row;
+            }          
+            echo(json_encode($medicinesarray));
+          }
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        $connection->close();
+    }
+    
+    public function getCurrentResidentMedicines($residentID){
+        
+        try {
+           $connection = $this->createConnection();
+           
+          $sql = "SELECT * FROM prescribed_medicines
+                  WHERE resident_ID = '$residentID'";
+          $medicinesarray = array();
+          if($result = $connection->query($sql)){
+          
+            while($row = $result->fetch_array(MYSQL_ASSOC)){
+            $medicinesarray[] = $row;
+            }          
+            echo(json_encode($medicinesarray));
+          }
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        $connection->close();
+    }
+    
     public function addMedicine($name, $dose, $residentID, $startDate, $endDate,$carerID){
         
        

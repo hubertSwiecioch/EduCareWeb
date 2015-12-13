@@ -216,6 +216,20 @@ require 'helper/DatabaseHelper.php';
                     
                     }
                     
+                    elseif ($_POST['mod'] == "getMedicines") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getMedicines();
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "getCurrentResidentMedicines") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getCurrentResidentMedicines($_POST['ID']);
+                    
+                    }
+                    
                     elseif ($_POST['mod'] == "removeMedicine") {
                         
                        $databaseHelper = new DatabaseHelper();
