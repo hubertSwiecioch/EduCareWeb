@@ -295,6 +295,11 @@ require 'helper/DatabaseHelper.php';
                     <input type='hidden' name='mod' value='getCarerTasks'/>
                     <input type="submit" value="Get carer tasks"/>   
                 </form>
+                
+                 <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='getMedicines'/>
+                    <input type="submit" value="GetMedicines"/>   
+                </form>
                 <?php
                 }
            }
