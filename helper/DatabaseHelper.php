@@ -148,6 +148,39 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    public function addTask($carerID, $residentID, $header, $date, $description){
+        
+        try {
+          
+           $connection = $this->createConnection();
+            
+           
+          $sql = "INSERT INTO task (description, date, resident_ID, carer_ID, header)
+                  VALUES ('$description', '$date', '$residentID','$carerID', '$header')";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "INSERT_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Querry execute filed, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
     public function getCarerTasks($carerID){
         
        
