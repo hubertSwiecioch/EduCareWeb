@@ -421,10 +421,10 @@ class DatabaseHelper {
             
           $connection = $this->createConnection();
           
-          $sql = "DELETE FROM family where resident_ID = '$residentID'
-                  DELETE FROM task where resident_ID = '$residentID'
-                  DELETE FROM prescribed_medicines where resident_ID = '$residentID'
-                  DELETE FROM resident where ID = '$residentID'";
+          $sql = "DELETE     resident, family, task, prescribed_medicines
+                FROM       projects 
+                LEFT JOIN  images ON images.p_id = projects.p_id
+                WHERE      projects.p_id = 10;";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
@@ -604,7 +604,7 @@ class DatabaseHelper {
                
           
           $sql = "INSERT INTO family (family_username, family_password, family_full_name, resident_ID, phone_number)
-            VALUES ('$family_username', '$encr_user_pass', $family_fullname', '$resident_ID', '$phonenumber')";
+            VALUES ('$family_username', '$encr_user_pass', '$family_fullname', '$resident_ID', '$phonenumber')";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
