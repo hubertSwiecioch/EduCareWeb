@@ -313,6 +313,39 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    public function removeMessage($messageID){
+        
+        
+        try {
+          
+          $connection = $this->createConnection();
+          
+          $sql = "DLETE carer_message
+                 WHERE ID= '$messageID'";
+
+            if ($connection->query($sql) === TRUE) {
+               $response['success'] = 1 ;
+               $response['message'] = "DELETE_SUCCESS";
+                die(json_encode($response));
+            } else {
+                $response['success'] = 0 ;
+               $response['message'] = "Database Error1, Please try Again";
+                die(json_encode($response));
+            }
+         
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
     public function addResident($first_name, $last_name, $date_of_adoption, 
                                 $birth_date,$address, $city, $image){
         
@@ -388,8 +421,10 @@ class DatabaseHelper {
             
           $connection = $this->createConnection();
           
-          $sql = "DELETE from resident
-                  WHERE ID = '$residentID'";
+          $sql = "DELETE FROM family where resident_ID = '$residentID'
+                  DELETE FROM task where resident_ID = '$residentID'
+                  DELETE FROM prescribed_medicines where resident_ID = '$residentID'
+                  DELETE FROM resident where ID = '$residentID'";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
@@ -527,9 +562,11 @@ class DatabaseHelper {
             
           $connection = $this->createConnection();
           
-          $sql = "DELETE from carer
-                  WHERE ID = '$carerID'";
-
+          $sql = "DELETE from carer_message WHERE sender_ID = '$carerID'
+                  DELETE from carer_message WHERE target_ID = '$carerID'
+                  DELETE from task WHERE carer_ID = '$carerID'
+                  DELETE from carer WHERE ID = '$carerID'";
+          
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
                $response['message'] = "REMOVE_SUCCESS";

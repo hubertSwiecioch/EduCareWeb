@@ -80,6 +80,7 @@ require 'helper/DatabaseHelper.php';
                         
                     }
                     
+                    
                     elseif ($_POST['mod'] == "registerFamily") {
                         
                        $databaseHelper = new DatabaseHelper();
@@ -171,6 +172,13 @@ require 'helper/DatabaseHelper.php';
                       
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->setIsReadMessage($_POST['messageID'],$_POST['isRead'] );
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "removeMessage") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->removeMessage($_POST['messageID']);
                     
                     } 
                     
