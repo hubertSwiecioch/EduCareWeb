@@ -421,12 +421,22 @@ class DatabaseHelper {
             
           $connection = $this->createConnection();
           
-          $sql = "DELETE     resident, family, task, prescribed_medicines
-                FROM       projects 
-                LEFT JOIN  images ON images.p_id = projects.p_id
-                WHERE      projects.p_id = 10;";
+          $sqlFamily = "DELETE FROM family
+                  WHERE family.resident_ID = '$residentID'";
+          
+          $sqlTask = "DELETE FROM task
+                  WHERE task.resident_ID = '$residentID'";
+          
+          $sqlPrescribedMedicines = "DELETE FROM prescribed_medicines
+                  WHERE prescribed_medicines.resident_ID = '$residentID'";
+          
+          $sqlResident = "DELETE FROM resident
+                  WHERE resident.ID = '$residentID'";
 
-            if ($connection->query($sql) === TRUE) {
+            if ($connection->query($sqlFamily) === TRUE &&
+                $connection->query($sqlTask) === TRUE &&
+                $connection->query($sqlPrescribedMedicines) === TRUE &&
+                $connection->query($sqlResident) === TRUE) {
                $response['success'] = 1 ;
                $response['message'] = "REMOVE_SUCCESS";
                 die(json_encode($response));
