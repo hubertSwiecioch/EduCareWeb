@@ -315,13 +315,12 @@ class DatabaseHelper {
     
     public function removeMessage($messageID){
         
-        
         try {
           
           $connection = $this->createConnection();
           
-          $sql = "DLETE carer_message
-                 WHERE ID= '$messageID'";
+          $sql = "DELETE FROM carer_message
+                 WHERE ID = '$messageID'";
 
             if ($connection->query($sql) === TRUE) {
                $response['success'] = 1 ;
