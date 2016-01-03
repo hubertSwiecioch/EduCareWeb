@@ -10,6 +10,8 @@ class AuthenticationHelper {
     private $password;
     private $onlineTime = 0;
     private $carerID = -1;
+    private $familyID = -1;
+
 
 
     public function AuthenticationHelper($usr, $pass){
@@ -120,5 +122,77 @@ class AuthenticationHelper {
 		
         die(json_encode($response));
     }
-}   
+}
+
+    public function LoginFamily(){
+        
+        require('conf/config.php');
+       
+        if(empty($this->username)||empty($this->password)){
+	
+	    $response["success"] = 0;
+		
+            $response["message"] = "All Fields Required";
+		
+		
+        die(json_encode($response));
+    }
+	
+    $query = "
+            SELECT * FROM `family` 
+            WHERE
+            family_username = :user
+             ";
+    
+    	 
+    $query_params = array(
+        ':user' => $this->username
+    );
+    
+	
+    try {
+		
+        $stmt = $db->prepare($query);
+		
+        $result = $stmt->execute($query_params);
+    } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+    }
+	
+	$is_login = false;
+    
+        $encr_user_pass = sha1($this->password);
+    
+	$row = $stmt->fetch();
+	
+    if ($row){
+        
+        if($encr_user_pass === $row['family_password']){
+			
+            $is_login = true;
+            $this->familyID = $row['ID'];
+        }
+    }
+    
+
+    if($is_login){
+		
+        $response["success"] = 1;
+        $response["message"] = "Login Successful";
+        $response["ID"] = $this->familyID;
+
+        die(json_encode($response));
+    }else{
+	
+        $response["success"] = 0;
+        $response["message"] = "username or password Incorrect";
+		
+        die(json_encode($response));
+    }
+        
+    }
 }

@@ -214,6 +214,38 @@ class DatabaseHelper {
         mysqli_close($connection);
     }
     
+    public function getResidentTasks($residentID){
+        
+       
+        try {
+          
+            $connection = $this->createConnection();
+           
+          $sql = "SELECT * FROM task 
+                  WHERE resident_ID = '$residentID' AND is_done = '0'";
+          $taskarrary = array();
+         
+           if($result = $connection->query($sql)){
+          
+            while($row = $result->fetch_array(MYSQL_ASSOC)){
+            $taskarrary[] = $row;
+            }          
+          }
+            
+          die(json_encode($taskarrary));
+          
+        } catch (PDOException $ex) {
+	
+		
+        $response['success'] = 0 ;
+        $response['message'] = "Database Error1, Please try Again";
+        die(json_encode($response));
+       
+        }
+        $result->close();
+        mysqli_close($connection);
+    }
+    
        public function getCarerMessages($carerID){
    
         try {

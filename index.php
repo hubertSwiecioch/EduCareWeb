@@ -64,6 +64,12 @@ require 'helper/DatabaseHelper.php';
                         $authentication->Login();
                     }
                     
+                    if($_POST['mod'] == 'LogInFamily'){
+                        
+                        $authentication = new AuthenticationHelper($_POST['username'], $_POST['password']);
+                        $authentication->LoginFamily();
+                    }
+                    
                     elseif ($_POST['mod'] == "registerCarer") {
                         
                        $databaseHelper = new DatabaseHelper();
@@ -85,7 +91,7 @@ require 'helper/DatabaseHelper.php';
                         
                        $databaseHelper = new DatabaseHelper();
                        $databaseHelper->registerFamily($_POST['familyUsername'], $_POST['familyPassword'], $_POST['familyFullName'],
-                               $_POST['residentID'], $_POST['phonenumber']);
+                               $_POST['residentID'], $_POST['phone_number']);
                         
                     }
                     
@@ -136,6 +142,13 @@ require 'helper/DatabaseHelper.php';
                       
                         $databaseHelper = new DatabaseHelper();
                         $databaseHelper->getCarerTasks($_POST['carerID']);
+                    
+                    }
+                    
+                    elseif ($_POST['mod'] == "getResidentTasks") {
+                      
+                        $databaseHelper = new DatabaseHelper();
+                        $databaseHelper->getResidentTasks($_POST['residentID']);
                     
                     }
                     
@@ -265,14 +278,24 @@ require 'helper/DatabaseHelper.php';
                     
                 }else{
                 ?>
-                <h1>Login</h1>
+                <h1>Login Carer</h1>
                 <form action="index.php" method="post">
                     <input type='hidden' name='mod' value='LogIn'/>
                     Username: <br/>
                     <input type="text" name="username" placeholder="Username"/><br/>
                     Password:<br/>
                     <input type="password" name="password" placeholder="Password"/><br/><br/>
-                    <input type="submit" value="Login"/>       
+                    <input type="submit" value="Login Carer"/>       
+                </form>
+                
+                <h1>Login Family</h1>
+                <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='LogInFamily'/>
+                    Username: <br/>
+                    <input type="text" name="username" placeholder="Username"/><br/>
+                    Password:<br/>
+                    <input type="password" name="password" placeholder="Password"/><br/><br/>
+                    <input type="submit" value="Login Family"/>       
                 </form>
                 
                  <form action="index.php" method="post">
@@ -302,6 +325,12 @@ require 'helper/DatabaseHelper.php';
                  <form action="index.php" method="post">
                     <input type='hidden' name='mod' value='getCarerTasks'/>
                     <input type="submit" value="Get carer tasks"/>   
+                </form>
+                
+                 <form action="index.php" method="post">
+                    <input type='hidden' name='mod' value='getResidentTasks'/>
+                    <input type='hidden' name='residentID' value='1'/>
+                    <input type="submit" value="Get resident tasks"/>   
                 </form>
                 
                  <form action="index.php" method="post">
